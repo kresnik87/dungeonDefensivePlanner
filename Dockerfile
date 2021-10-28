@@ -77,7 +77,7 @@ WORKDIR /app
 # Fix permissions (useful if the host is Windows)
 RUN chmod +x docker_conf/composer.sh docker_conf/start.sh docker_conf/apache/start_safe_perms
 
-RUN cp .env.${BUILD_ENV}.dist .env.local
+#RUN cp .env.${BUILD_ENV}.dist .env.local
 
 # add supervisor
 RUN mkdir -p /var/log/supervisor

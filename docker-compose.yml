@@ -1,9 +1,9 @@
 version: "3"
 services:
-  api:
+  dungeon:
     build: .
     networks:
-      - mynet
+      - mynet2
     environment:
         SYMFONY_ENV: dev
         BUILD_ENV: local
@@ -13,7 +13,7 @@ services:
         - 5800:80
 
   elasticsearch:
-    container_name: elasticsearch
+    container_name: elasticsearch_cont
     image: "docker.elastic.co/elasticsearch/elasticsearch:7.12.0"
     environment:
       - "discovery.type=single-node"
@@ -28,7 +28,7 @@ services:
       - elastic_volume:/usr/share/elasticsearch/data
   #gather all logs from different sources and pass them to elastic-search in a proper format
   logstash_cont:
-    container_name: logstash_cont
+    container_name: logstash_cont_dung
     build: ./docker_conf/logstash
     #ports:
     #  - 5041:5044
@@ -37,7 +37,7 @@ services:
 
   #keep track of the symfony log file and send it to elastic search
   filebeats_cont:
-      container_name: filebeats_cont
+      container_name: filebeats_cont_dung
       build: ./docker_conf/filebeats
       volumes:
         - ./var/log:/var/log/symfony
@@ -46,15 +46,29 @@ services:
 
   kibana_cont:
       image: docker.elastic.co/kibana/kibana:7.12.0
-      container_name: kibana_cont
+      container_name: kibana_cont_dung
       ports:
         - 5602:5601
       environment:
         ELASTICSEARCH_URL: http://elasticsearch:9200
         ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
 
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
 networks:
-   mynet:
+   mynet2:
        driver: bridge
 volumes:
   elastic_volume:
@@ -75,3 +89,7 @@ volumes:
 #
 #volumes:
 #  rabbitmq:
+
+###> doctrine/doctrine-bundle ###
+  db-data:
+###< doctrine/doctrine-bundle ###
