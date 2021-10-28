@@ -1,9 +1,7 @@
 nucleos_user:
     firewall_name: main
-
+    db_driver: orm # other valid values is 'mongodb'
     from_email: '%env(MAIL_SENDER)%'
-
-    user_class: 'App\Entity\User\User'
-
+    user_class: 'App\Entity\User'
     group:
         group_class: 'App\Entity\User\Group'

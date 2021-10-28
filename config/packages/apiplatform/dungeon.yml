@@ -1,0 +1,31 @@
+resources:
+    App\Entity\Dungeon:
+        attributes:
+            pagination_enabled: false
+            normalization_context:
+                groups: ['dungeon-read']
+            denormalization_context:
+                groups: ['dungeon-write']
+            enable_max_depth: true
+        collectionOperations:
+            get:
+                method: 'GET'
+                normalization_context:
+                    groups: [ 'dungeon-list' ]
+            post:
+                method: 'POST'
+
+
+        itemOperations:
+            get:
+                method: 'GET'
+                swagger_context:
+                    summary: 'retrives specific dungeon data'
+
+            put:
+                method: 'PUT'
+                swagger_context:
+                  summary: 'Update specific dungeon data'
+
+
+
