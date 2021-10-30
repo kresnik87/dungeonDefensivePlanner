@@ -6,12 +6,16 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DungeonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Entity\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=DungeonRepository::class)
+ * @Vich\Uploadable
  */
 class Dungeon
 {
@@ -34,6 +38,18 @@ class Dungeon
      * @Groups("dungeon-read","dungeon-write")
      */
     private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="dungeon", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Npc::class, mappedBy="dungeon")
@@ -137,6 +153,45 @@ class Dungeon
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @param UploadedFile|null $image
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     * @return Dungeon
+     */
+    public function setUpdatedAt(\DateTime $updatedAt): Dungeon
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }

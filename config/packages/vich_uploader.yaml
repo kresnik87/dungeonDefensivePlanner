@@ -1,7 +1,32 @@
 vich_uploader:
     db_driver: orm
 
-    #mappings:
-    #    products:
-    #        uri_prefix: /images/products
-    #        upload_destination: '%kernel.project_dir%/public/images/products'
+    mappings:
+        spells:
+            uri_prefix: '%env(APP_IMAGE_SPELL)%'
+            upload_destination: '%kernel.project_dir%/public/%env(APP_IMAGE_SPELL)%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        npc:
+            uri_prefix: '%env(APP_IMAGE_NPC)%'
+            upload_destination: '%kernel.project_dir%/public/%env(APP_IMAGE_NPC)%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        class:
+            uri_prefix: '%env(APP_IMAGE_CLASS)%'
+            upload_destination: '%kernel.project_dir%/public/%env(APP_IMAGE_CLASS)%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        dungeon:
+            uri_prefix: '%env(APP_IMAGE_DUNGEON)%'
+            upload_destination: '%kernel.project_dir%/public/%env(APP_IMAGE_DUNGEON)%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
