@@ -41,7 +41,7 @@ class ClassSpec
     private $imageFile;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      * @var \DateTime
      */
     private $updatedAt;
@@ -51,6 +51,11 @@ class ClassSpec
      * @ORM\OneToMany(targetEntity=Spell::class, mappedBy="classSpec")
      */
     private $spell;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $blizzardId;
 
     public function __construct()
     {
@@ -149,6 +154,18 @@ class ClassSpec
     public function setUpdatedAt(\DateTime $updatedAt): ClassSpec
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getBlizzardId(): ?string
+    {
+        return $this->blizzardId;
+    }
+
+    public function setBlizzardId(?string $blizzardId): self
+    {
+        $this->blizzardId = $blizzardId;
+
         return $this;
     }
 }

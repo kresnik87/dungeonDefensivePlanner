@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\ClassSpec;
 use App\Entity\Dungeon;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -28,6 +29,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Dungeon', 'fas fa-list', Dungeon::class);
+        yield MenuItem::linkToCrud('Dungeon', 'fas fa-dungeon', Dungeon::class);
+        yield MenuItem::linkToCrud('ClassSpec', 'fas fa-archway', ClassSpec::class);
     }
 }

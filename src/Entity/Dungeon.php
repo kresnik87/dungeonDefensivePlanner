@@ -46,7 +46,7 @@ class Dungeon
     private $imageFile;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      * @var \DateTime
      */
     private $updatedAt;
@@ -157,7 +157,7 @@ class Dungeon
     }
 
     /**
-     * @param UploadedFile|null $image
+     * @param File|null $image
      */
     public function setImageFile(File $image = null)
     {

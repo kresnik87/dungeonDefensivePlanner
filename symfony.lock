@@ -16,6 +16,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
+    "dalaenir/blizzard-api": {
+        "version": "v1.0.1"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -288,6 +291,9 @@
             "src/Kernel.php",
             "src/Controller/.gitignore"
         ]
+    },
+    "symfony/http-client": {
+        "version": "v5.3.10"
     },
     "symfony/http-client-contracts": {
         "version": "v2.4.0"
